@@ -19,3 +19,5 @@ VIRTUAL_CANO: '50068961'
 VIRTUAL_ACNT_PRDT_CD: '01' #상품코드2자리
 
 VIRTUAL_URL: 'https://openapivts.koreainvestment.com:29443' #모의투자서비스
+
+VIRTUAL_TOKEN_PATH: './stock_token_virtual.json'
