@@ -114,11 +114,12 @@ def MakeToken(dist = "REAL"):
         "appsecret":GetAppSecret(dist)
         }
 
+    
+
     PATH = "oauth2/tokenP"
     URL = f"{GetUrlBase(dist)}/{PATH}"
     res = requests.post(URL, headers=headers, data=json.dumps(body))
     
-
     if res.status_code == 200:
         my_token = res.json()["access_token"]
 
