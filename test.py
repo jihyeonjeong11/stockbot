@@ -18,7 +18,7 @@ else:
     print("Maket is Closed!!")
 
 
-'''
+
 
 print("                                     ")
 print("-----------삼성 전자 일봉 -------------")
@@ -118,7 +118,7 @@ pprint.pprint(Common.GetOhlcv1("US","AAPL"))
 print(" Yahoo ")
 
 pprint.pprint(Common.GetOhlcv2("US","AAPL"))
-'''
+
 
 
 
