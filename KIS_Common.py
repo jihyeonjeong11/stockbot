@@ -6,6 +6,9 @@ import requests
 from datetime import datetime, timedelta
 from pytz import timezone
 
+import KIS_API_Helper_US as KisUS
+import KIS_API_Helper_KR as KisKR
+
 stock_info = None
 
 #설정 파일 정보를 읽어 옵니다.
@@ -235,3 +238,19 @@ def GetFromNowDateStr(area = "KR", type= "NONE" , days=100):
         return next.strftime("%Y-%m-%d")
 ############################################################################################################################################################
 
+#통합 증거금 사용시 잔고 확인!
+def GetBalanceKrwTotal():
+    kr_data = KisKR.GetBalance()
+    us_data = KisUS.GetBalance("KRW")
+
+    balanceDict = dict()
+
+    balanceDict['RemainMoney'] = str(float(kr_data['RemainMoney']) + float(us_data['RemainMoney']))
+    #주식 총 평가 금액
+    balanceDict['StockMoney'] = str(float(kr_data['StockMoney']) + float(us_data['StockMoney']))
+    #평가 손익 금액
+    balanceDict['StockRevenue'] = str(float(kr_data['StockRevenue']) + float(us_data['StockRevenue']))
+    #총 평가 금액
+    balanceDict['TotalMoney'] = str(float(kr_data['TotalMoney']) + float(us_data['TotalMoney']))
+
+    return balanceDict

@@ -102,6 +102,3 @@ pprint.pprint(KisKR.GetOrderList("","ALL","OPEN"))
 print("                                     ")
 print("------------------------------------")
 print("                                     ")
-
-
-
