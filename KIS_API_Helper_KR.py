@@ -101,13 +101,14 @@ def GetBalance():
     time.sleep(0.2)
 
     PATH = "uapi/domestic-stock/v1/trading/inquire-balance"
-    URL = f"{Common.GetUrlBase(Common.GetNowDist())}/{PATH}"
+    # URL = f"{Common.GetUrlBase(Common.GetNowDist())}/{PATH}"
+    URL = f"https://openapi.koreainvestment.com:9443/{PATH}"
 
     TrId = "TTTC8434R"
     if Common.GetNowDist() == "VIRTUAL":
          TrId = "VTTC8434R"
 
-
+    print('here')
     # 헤더 설정
     headers = {"Content-Type":"application/json", 
             "authorization": f"Bearer {Common.GetToken(Common.GetNowDist())}",

@@ -11,13 +11,13 @@ import KIS_API_Helper_KR as KisKR
 
 import time
 
+import pprint
+
 
 
 import FinanceDataReader as fdr
 import pandas_datareader.data as web
-
-# pip3 install pandas-datareader
-# pip3 install -U finance-datareader
+from pykrx import stock
 
 
 import pandas as pd
@@ -30,7 +30,6 @@ with open('./var/autobot/myStockInfo.yaml', encoding='UTF-8') as f:
     stock_info = yaml.load(f, Loader=yaml.FullLoader)
     
     
-
 ############################################################################################################################################################
 NOW_DIST = ""
 
@@ -59,7 +58,7 @@ def GetAppKey(dist = "REAL"):
     elif dist == "VIRTUAL":
         key = "VIRTUAL_APP_KEY"
         
-    return stock_info[key]
+    return stock_info["REAL_APP_KEY"]
 
 
 #앱시크릿을 리턴!
@@ -74,7 +73,7 @@ def GetAppSecret(dist = "REAL"):
     elif dist == "VIRTUAL":
         key = "VIRTUAL_APP_SECRET"
         
-    return stock_info[key]
+    return stock_info["REAL_APP_SECRET"]
 
 
 #계좌 정보를 리턴!
@@ -88,7 +87,7 @@ def GetAccountNo(dist = "REAL"):
     elif dist == "VIRTUAL":
         key = "VIRTUAL_CANO"
         
-    return stock_info[key]
+    return stock_info["REAL_CANO"]
 
 
 #계좌 정보를 리턴!
@@ -102,7 +101,7 @@ def GetPrdtNo(dist = "REAL"):
     elif dist == "VIRTUAL":
         key = "VIRTUAL_ACNT_PRDT_CD"
         
-    return stock_info[key]
+    return stock_info["REAL_ACNT_PRDT_CD"]
 
 
 #URL주소를 리턴!
@@ -115,8 +114,8 @@ def GetUrlBase(dist = "REAL"):
         key = "REAL_URL"
     elif dist == "VIRTUAL":
         key = "VIRTUAL_URL"
-        
-    return stock_info[key]
+
+    return stock_info["REAL_URL"]
 
 
 
@@ -132,8 +131,9 @@ def GetTokenPath(dist = "REAL"):
         key = "REAL_TOKEN_PATH"
     elif dist == "VIRTUAL":
         key = "VIRTUAL_TOKEN_PATH"
-        
-    return stock_info[key]
+    print(key)
+    print(stock_info)
+    return stock_info["REAL_TOKEN_PATH"]
 
 
         
@@ -309,7 +309,6 @@ def GetOhlcv(area, stock_code, limit = 500):
 
             print("----First try----")
             df = KisKR.GetOhlcv(stock_code,"D")
-            
 
             #한투에서 100개 이상 못가져 오니깐 그 이상은 아래 로직을 탄다. 혹은 없는 종목이라면 역시 아래 로직을 탄다
             if Adjlimit > 100 or len(df) == 0:
@@ -370,6 +369,8 @@ def GetOhlcv1(area, stock_code, limit = 500):
 
 
 
+
+
 #야후 파이낸스에서 정보 가져오기! 
 # https://pandas-datareader.readthedocs.io/en/latest/
 def GetOhlcv2(area, stock_code, limit = 500):
@@ -394,14 +395,49 @@ def GetOhlcv2(area, stock_code, limit = 500):
         df = web.DataReader(stock_code, "yahoo", GetFromNowDateStr(area,"BAR",-limit),GetNowDateStr(area,"BAR"))
 
 
+    try:
 
-    df = df[[ 'Open', 'High', 'Low', 'Close', 'Volume' ]]
-    df.columns = [ 'open', 'high', 'low', 'close', 'volume']
+        df = df[[ 'Open', 'High', 'Low', 'Close', 'Volume' ]]
+        df.columns = [ 'open', 'high', 'low', 'close', 'volume']
+        df.index.name = "Date"
+
+        #거래량과 시가,종가,저가,고가의 평균을 곱해 대략의 거래대금을 구해서 value 라는 항목에 넣는다 ㅎ
+        df.insert(5,'value',((df['open'] + df['high'] + df['low'] + df['close'])/4.0) * df['volume'])
+
+
+        df.insert(6,'change',(df['close'] - df['close'].shift(1)) / df['close'].shift(1))
+
+        df[[ 'open', 'high', 'low', 'close', 'volume', 'change']] = df[[ 'open', 'high', 'low', 'close', 'volume', 'change']].apply(pd.to_numeric)
+
+
+        time.sleep(0.2)
+        
+
+    except Exception as e:
+        print("")
+
+    return df
+
+
+    
+
+
+
+
+#pykrx를 통해 지수 정보를 읽어온다!
+#아래 2줄로 활용가능한 지수를 체크할 수 있다!!
+#for index_v in stock.get_index_ticker_list(market='KOSDAQ'): #KOSPI 지수도 확인 가능!
+#    print(index_v, stock.get_index_ticker_name(index_v))
+
+def GetIndexOhlcvPyKrx(index_code, limit = 500):
+
+
+    df = stock.get_index_ohlcv(GetFromNowDateStr("KR","NONE",-limit), GetNowDateStr("KR","NONE"), index_code)
+
+
+    df = df[[ '시가', '고가', '저가', '종가', '거래량', '거래대금' ]]
+    df.columns = [ 'open', 'high', 'low', 'close', 'volume', 'value']
     df.index.name = "Date"
-
-    #거래량과 시가,종가,저가,고가의 평균을 곱해 대략의 거래대금을 구해서 value 라는 항목에 넣는다 ㅎ
-    df.insert(5,'value',((df['open'] + df['high'] + df['low'] + df['close'])/4.0) * df['volume'])
-
 
     df.insert(6,'change',(df['close'] - df['close'].shift(1)) / df['close'].shift(1))
 
@@ -409,10 +445,41 @@ def GetOhlcv2(area, stock_code, limit = 500):
 
 
     time.sleep(0.2)
-        
 
 
     return df
 
 
+
+
+############################################################################################################################################################
+
+#종가 데이터를 가지고 오는데 신규 상장되서 240거래일 전 데이터가 없다면 신규 상장일의 정보를 리턴해준다!
+def GetCloseData(df,st):
     
+    if len(df) < abs(st):
+        return df['close'][-len(df)] 
+    else:
+        return df['close'][st] 
+        
+
+#넘어온 종목 코드 리스트에 해당 종목이 있는지 여부를 체크하는 함수!
+def CheckStockCodeInList(stock_code_list,find_code):
+    InOk = False
+    for stock_code in stock_code_list:
+        if stock_code == find_code:
+            InOk = True
+            break
+
+    return InOk
+
+
+
+
+############################################################################################################################################################
+
+#이동평균선 수치를 구해준다 첫번째: 일봉 정보, 두번째: 기간, 세번째: 기준 날짜
+def GetMA(ohlcv,period,st):
+    close = ohlcv["close"]
+    ma = close.rolling(period).mean()
+    return float(ma[st])

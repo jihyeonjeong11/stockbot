@@ -32,7 +32,7 @@ PortfolioName = "소형주퀀트_전략"
 #####################################################################################################################################
 
 #전제는 크롭탭에 주말 빼고 UTC 0시 기준 16시/ 우리나라 시간 새벽1시 정각에 해당 봇이 돈다고 가정!
-# 0 16 * * 1-5 python3 /var/autobot/Static_Asset_US.py 
+# 0 16 * * 1-5 python3 ./var/autobot/Static_Asset_US.py 
 
 
 #리밸런싱이 가능한지 여부를 판단!
@@ -43,7 +43,7 @@ Is_Rebalance_Go = False
 YMDict = dict()
 
 #파일 경로입니다.
-asset_tym_file_path = "/var/autobot/KrSmallStockST_YM.json"
+asset_tym_file_path = "./var/autobot/KrSmallStockST_YM.json"
 try:
     with open(asset_tym_file_path, 'r') as json_file:
         YMDict = json.load(json_file)
@@ -254,7 +254,7 @@ for PickStock in FinalTopList:
 #소형주 퀀트전략으로 투자하고 있는 주식 종목코드 리스트를 저장할 파일 
 KRSmallStockSTList = list()
 #파일 경로입니다.
-small_stock_file_path = "/var/autobot/KrSmallStockSTList.json"
+small_stock_file_path = "./var/autobot/KrSmallStockSTList.json"
 
 try:
     with open(small_stock_file_path, 'r') as json_file:

@@ -1,67 +1,33 @@
-import KIS_Common as Common
+
+from pykrx import stock
 import KIS_API_Helper_KR as KisKR
-import json
-import pandas as pd
 import pprint
 
 
+#계좌 잔고를 가지고 온다!
+Balance = KisKR.GetBalance()
+#####################################################################################################################################
 
-stockcode = "224060"
+'''-------통합 증거금 사용자는 아래 코드도 사용할 수 있습니다! -----------'''
+#통합증거금 계좌 사용자 분들중 만약 미국계좌랑 통합해서 총자산을 계산 하고 포트폴리오 비중에도 반영하고 싶으시다면 아래 코드를 사용하시면 되고 나머지는 동일합니다!!!
+#Balance = Common.GetBalanceKrwTotal()
 
-url = "https://finance.naver.com/item/main.naver?code=" + stockcode
-dfs = pd.read_html(url,encoding='euc-kr')
-
-#pprint.pprint(dfs[4])
-
-data_dict = dfs[4]
-
-
-data_keys = list(data_dict.keys())
-
-for key in data_keys:
-    if stockcode in key:
-        print(key)
-        print(data_dict[key][5]) #매출액
-        print(data_dict[key][6]) #영업이익
-        print(data_dict[key][8]) #영업이익증가율
-        print(data_dict[key][11]) #ROE
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+'''-----------------------------------------------------------'''
+#####################################################################################################################################
 
 
+print("--------------내 보유 잔고---------------------")
 
+pprint.pprint(Balance)
 
+print("--------------------------------------------")
 
-TargetStockList = list()
-#파일 경로입니다.
-korea_file_path = "./var/autobot/KrStockDataList.json"
+# #코스닥 지수 확인
+# for index_v in stock.get_index_ticker_list(market='KOSDAQ'): #KOSPI 지수도 확인 가능!
+#     print(index_v, stock.get_index_ticker_name(index_v))
 
-try:
-    #이 부분이 파일을 읽어서 리스트에 넣어주는 로직입니다. 
-    with open(korea_file_path, 'r') as json_file:
-        TargetStockList = json.load(json_file)
+# print("-----------------------------------------------------------------")
 
-except Exception as e:
-    print("Exception by First")
-
-
-print("TotalStockCodeCnt: " , len(TargetStockList))
-
-
-df = pd.DataFrame(TargetStockList)
-
-
-df = df[df.StockMarketCap >= 50.0].copy()
-df = df[df.StockDistName != "금융"].copy()
-df = df[df.StockDistName != "외국증권"].copy()
-
-df = df[df.StockEPS > 0].copy()
-
-
-df = df.sort_values(by="StockMarketCap")
-pprint.pprint(df)
-
-print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-
-pprint.pprint(df[0:20])
-
+# #코스피 지수 확인
+# for index_v in stock.get_index_ticker_list(market='KOSPI'): #KOSPI 지수도 확인 가능!
+#     print(index_v, stock.get_index_ticker_name(index_v))
