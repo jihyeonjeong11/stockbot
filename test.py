@@ -49,6 +49,7 @@ print("TotalStockCodeCnt: " , len(TargetStockList))
 
 df = pd.DataFrame(TargetStockList)
 
+
 df = df[df.StockMarketCap >= 50.0].copy()
 df = df[df.StockDistName != "금융"].copy()
 df = df[df.StockDistName != "외국증권"].copy()

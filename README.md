@@ -53,7 +53,7 @@ https://blog.naver.com/zacra/223000628375 이것도보기
 
 종목 당 최대 매수 금액은 500만원
 
- MDD(Maximum Draw Down)란? · 일정기간 동안 최고점과 최저점을 비율로 계산한 값 · MDD값이 높다 = 주식 가격이 위아래로 출렁이며 파도친다 
+MDD(Maximum Draw Down)란? · 일정기간 동안 최고점과 최저점을 비율로 계산한 값 · MDD값이 높다 = 주식 가격이 위아래로 출렁이며 파도친다
 
 연복리 수익: 35% (원금대비 10000% 수익)
 MDD: -45%
@@ -76,12 +76,12 @@ https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quota
 
 현재가 시세 endpoint 주소
 
-필요한것. 
+필요한것.
 
 시가총액
 PER, PBR BPS 로 판단한다.
 
-helper_KR에 GetCurrentStatus가 추가됨.  336줄
+helper_KR에 GetCurrentStatus가 추가됨. 336줄
 
 영업이익은 다음강의
 
@@ -95,7 +95,6 @@ MakeStockData_KR을 참고한다.
 금융, 외국증권 카테고리는 뺌.
 
 이후 시총순으로 정렬해서 리턴 20개
-
 
 동영상 확인해서 크론탭 몇시에 있는지 확인 여기서는 오후 5에 돌렸다고 함.
 
@@ -112,7 +111,7 @@ PBR 현재가 / BPS: 현재가가 1주당 순자산의 몇 배인가?
 EPS가 큰 것이 중요하다.
 영업이익보다 순이익이 더욱 엄격한 기준이기 때문이다.
 
-test.py에 
+test.py에
 
 시총 50조 eps 양수인것으로 조건 걸려있음
 
@@ -123,3 +122,11 @@ smallStock_st에 실제 구현된 예제가 있음
 실제 영업수준에서 다 걸러질 수도 있기 때문에,
 
 하나씩 크롤링하는 수준으로 코드가 바뀌었음.
+
+부르는 순서(중요! 크론탭에서)
+
+KIS_MakeToken
+
+KIS_MakeStockCodeList
+
+KIS_Make_StockData_KR
