@@ -119,7 +119,7 @@ pprint.pprint(Balance)
 
 print("--------------------------------------------")
 #총 평가금액에서 해당 봇에게 할당할 총 금액비율 1.0 = 100%  0.5 = 50%
-InvestRate = 0.05
+InvestRate = 1.0
 
 #기준이 되는 내 총 평가금액에서 투자비중을 곱해서 나온 포트폴리오에 할당된 돈!!
 TotalMoney = float(Balance['TotalMoney']) * InvestRate
