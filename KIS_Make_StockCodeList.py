@@ -78,7 +78,7 @@ else:
 
 
 #파일 경로입니다.
-korea_file_path = "./var/autobot/KrStockCodeList.json"
+korea_file_path = "/home/ubuntu/stockbot/var/autobot/KrStockCodeList.json"
 #파일에 리스트를 저장합니다
 with open(korea_file_path, 'w') as outfile:
     json.dump(KoreaStockList, outfile)
@@ -110,7 +110,7 @@ print(USStockList)
 print("count--> ", len(USStockList))
 
 #파일 경로입니다.
-us_file_path = "./var/autobot/UsStockCodeList.json"
+us_file_path = "/home/ubuntu/stockbot/var/autobot/UsStockCodeList.json"
 #파일에 리스트를 저장합니다
 with open(us_file_path, 'w') as outfile:
     json.dump(USStockList, outfile)

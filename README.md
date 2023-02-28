@@ -8,7 +8,7 @@ KIS_Make_StockData_KR 하루에 한번(새벽 가장 오래걸림)
 
 SmallStock_ST_KR 한달에 한번
 
-나중에 /var/autobot은 전부 ./으로 바꿔주자 그냥
+나중에 /var/autobot은 전부 /home/ubuntu/stockbot/으로 바꿔주자 그냥
 
 ////////////////////////////////////////////////////////////////////////////////
 

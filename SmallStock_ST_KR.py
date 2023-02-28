@@ -32,7 +32,7 @@ PortfolioName = "소형주퀀트_전략"
 #####################################################################################################################################
 
 #전제는 크롭탭에 주말 빼고 UTC 0시 기준 16시/ 우리나라 시간 새벽1시 정각에 해당 봇이 돈다고 가정!
-# 0 16 * * 1-5 python3 ./var/autobot/Static_Asset_US.py 
+# 0 16 * * 1-5 python3 /home/ubuntu/stockbot/var/autobot/Static_Asset_US.py 
 
 
 #리밸런싱이 가능한지 여부를 판단!
@@ -43,7 +43,7 @@ Is_Rebalance_Go = False
 YMDict = dict()
 
 #파일 경로입니다.
-asset_tym_file_path = "./var/autobot/KrSmallStockST_YM.json"
+asset_tym_file_path = "/home/ubuntu/stockbot/var/autobot/KrSmallStockST_YM.json"
 try:
     with open(asset_tym_file_path, 'r') as json_file:
         YMDict = json.load(json_file)
@@ -132,7 +132,7 @@ print("총 포트폴리오에 할당된 투자 가능 금액 : ", format(round(T
 
 TargetStockList = list()
 #파일 경로입니다.
-korea_file_path = "./var/autobot/KrStockDataList.json"
+korea_file_path = "/home/ubuntu/stockbot/var/autobot/KrStockDataList.json"
 
 try:
     #이 부분이 파일을 읽어서 리스트에 넣어주는 로직입니다. 
@@ -254,7 +254,7 @@ for PickStock in FinalTopList:
 #소형주 퀀트전략으로 투자하고 있는 주식 종목코드 리스트를 저장할 파일 
 KRSmallStockSTList = list()
 #파일 경로입니다.
-small_stock_file_path = "./var/autobot/KrSmallStockSTList.json"
+small_stock_file_path = "/home/ubuntu/stockbot/var/autobot/KrSmallStockSTList.json"
 
 try:
     with open(small_stock_file_path, 'r') as json_file:

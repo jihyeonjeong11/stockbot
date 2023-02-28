@@ -34,7 +34,7 @@ PortfolioName = "소형주퀀트_전략"
 
 #전제는 크롭탭 적절한 시간대에 등록하셔서 활용하세요!
 # https://blog.naver.com/zacra/222496979835
-# 0 1 * * 1-5 python3 ./var/autobot/SmallStock_ST_KR_MT.py 
+# 0 1 * * 1-5 python3 /home/ubuntu/stockbot/var/autobot/SmallStock_ST_KR_MT.py 
 
 
 #리밸런싱이 가능한지 여부를 판단!
@@ -45,7 +45,7 @@ Is_Rebalance_Go = False
 YMDict = dict()
 
 #파일 경로입니다.
-asset_tym_file_path = "./var/autobot/KrSmallStockST_YM.json"
+asset_tym_file_path = "/home/ubuntu/stockbot/var/autobot/KrSmallStockST_YM.json"
 try:
     with open(asset_tym_file_path, 'r') as json_file:
         YMDict = json.load(json_file)
@@ -135,7 +135,7 @@ StatusCode = "NONE"
 
 MaCheck = dict()
 #파일 경로입니다.
-ma_file_path = "./var/autobot/KrSmallStockMaCheck.json"
+ma_file_path = "/home/ubuntu/stockbot/var/autobot/KrSmallStockMaCheck.json"
 
 try:
     #이 부분이 파일을 읽어서 리스트에 넣어주는 로직입니다. 
@@ -252,7 +252,7 @@ else:
     #소형주 퀀트전략으로 투자하고 있는 주식 종목코드 리스트를 저장할 파일 
     KRSmallStockSTList = list()
     #파일 경로입니다.
-    small_stock_file_path = "./var/autobot/KrSmallStockSTList.json"
+    small_stock_file_path = "/home/ubuntu/stockbot/var/autobot/KrSmallStockSTList.json"
 
     try:
         with open(small_stock_file_path, 'r') as json_file:
@@ -292,7 +292,7 @@ else:
 
         TargetStockList = list()
         #파일 경로입니다.
-        korea_file_path = "./var/autobot/KrStockDataList.json"
+        korea_file_path = "/home/ubuntu/stockbot/var/autobot/KrStockDataList.json"
 
         try:
             #이 부분이 파일을 읽어서 리스트에 넣어주는 로직입니다. 
