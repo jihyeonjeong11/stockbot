@@ -26,7 +26,7 @@ import pandas as pd
 stock_info = None
 
 #설정 파일 정보를 읽어 옵니다.
-with open('./var/autobot/myStockInfo.yaml', encoding='UTF-8') as f:
+with open('/home/ubuntu/stockbot/var/autobot/myStockInfo.yaml', encoding='UTF-8') as f:
     stock_info = yaml.load(f, Loader=yaml.FullLoader)
     
     

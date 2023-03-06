@@ -14,7 +14,7 @@ Common.SetChangeMode("REAL")
 
 KoreaStockList = list()
 #파일 경로입니다.
-korea_file_path = "./var/autobot/KrStockCodeList.json"
+korea_file_path = "/home/ubuntu/stockbot/var/autobot/KrStockCodeList.json"
 
 try:
     #이 부분이 파일을 읽어서 리스트에 넣어주는 로직입니다. 
@@ -72,7 +72,7 @@ print("--------------------------------------------------------")
 
 
 #파일 경로입니다.
-kr_data_file_path = "./var/autobot/KrStockDataList.json"
+kr_data_file_path = "/home/ubuntu/stockbot/var/autobot/KrStockDataList.json"
 #파일에 리스트를 저장합니다
 with open(kr_data_file_path, 'w') as outfile:
     json.dump(KrStockDataList, outfile)
